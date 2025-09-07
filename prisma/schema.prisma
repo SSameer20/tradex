@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// prisma/schema.prisma
+
+model User {
+  id             String         @id @default(cuid())
+  name           String?
+  email          String?        @unique
+  emailVerified  DateTime?
+  image          String?
+  role           String         @default("user")
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  // Relations
+  portfolio      Portfolio?
+  trades         Trade[]
+}
+
+model Portfolio {
+  id             String         @id @default(cuid())
+  userId         String         @unique
+  totalBalance   Float          @default(10000) // USD balance
+  totalValue     Float          @default(0) // USD portfolio value
+  change24h      Float          @default(0) // % change
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  // Relations
+  user           User           @relation(fields: [userId], references: [id])
+  holdings       Holding[]
+}
+
+model Holding {
+  id             String         @id @default(cuid())
+  portfolioId    String
+  symbol         String         // e.g., BTC, ETH
+  amount         Float          // number of coins
+  valueUsd       Float          @default(0) // current USD value
+
+  // Relations
+  portfolio      Portfolio      @relation(fields: [portfolioId], references: [id])
+}
+
+model Trade {
+  id             String         @id @default(cuid())
+  userId         String
+  symbol         String         // e.g., BTC
+  type           TradeType      // BUY / SELL
+  amount         Float          // coins traded
+  priceUsd       Float          // trade price per coin
+  totalUsd       Float          // total trade value
+  createdAt      DateTime       @default(now())
+
+  // Relations
+  user           User           @relation(fields: [userId], references: [id])
+}
+
+enum TradeType {
+  BUY
+  SELL
+}
