@@ -43,13 +43,6 @@
   --sidebar-ring: oklch(0.705 0.015 286.067);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #18181b; /* not pure black, slate */
-    --foreground: #ededed;
-  }
-}
-
 body {
   font-family: var(--font-sans);
   transition: background 0.2s, color 0.2s;
@@ -135,3 +128,11 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@theme {
+  --breakpoint-xs: 380px;
+  --breakpoint-md: 600px;
+  --breakpoint-lg: 900px;
+}
+
+/* Custom Stripe Background */

@@ -9,20 +9,20 @@ export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="w-full bg-card text-card-foreground px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center shadow-md">
+    <nav className="w-full  text-[var(--foreground)] px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center shadow-md h-1/10">
       <a
         href="/"
         className="font-bold text-lg sm:text-xl text-card-foreground no-underline tracking-wide"
       >
-        Tradex
+        TradeX
       </a>
       <div>
         {status === "loading" ? (
           <span className="text-card-foreground opacity-70">Loading...</span>
         ) : session ? (
-          <div className="relative flex items-center gap-2 sm:gap-3">
+          <div className="relative flex items-center gap-2 sm:gap-3 cursor-pointer">
             <button
-              className="flex items-center gap-2 focus:outline-none px-2 py-1 rounded hover:bg-border transition"
+              className="flex items-center gap-2 focus:outline-none px-2 py-1 rounded hover:bg-border transition cursor-pointer"
               onClick={() => setMenuOpen((open) => !open)}
             >
               {session.user?.image && (
@@ -76,7 +76,7 @@ export default function Navigation() {
           </div>
         ) : (
           <button
-            className="bg-warning text-card-foreground px-4 sm:px-5 py-2 rounded-md hover:bg-opacity-80 transition font-semibold"
+            className="bg-warning text-card-foreground px-4 sm:px-5 py-2 rounded-md hover:bg-opacity-80 transition font-semibold cursor-pointer"
             onClick={() => signIn("google")}
           >
             Login / Register
