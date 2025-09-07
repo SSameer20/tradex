@@ -1,6 +1,3 @@
-import Redis from "ioredis";
-
-const reddisClient = new Redis(process.env.UPSTASH_REDIS_REST_URL!, {
-  password: process.env.UPSTASH_REDIS_REST_TOKEN,
-});
-export default reddisClient;
+// lib/cache.ts
+import NodeCache from "node-cache";
+export const cache = new NodeCache({ stdTTL: 30 }); // 30 seconds TTL

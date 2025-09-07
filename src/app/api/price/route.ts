@@ -1,28 +1,25 @@
 // app/api/prices/route.ts
 import { NextResponse } from "next/server";
-import redis from "@/lib/redis";
-
-const SYMBOLS = {
-  bitcoin: "BTC",
-  ethereum: "ETH",
-  tether: "USDT",
-  "usd-coin": "USDC",
-  monero: "XMR",
-  solana: "SOL",
-};
+import { cache } from "@/lib/redis";
+import { setLoserAndGainer, SYMBOLS } from "@/lib/helper";
 
 export async function GET() {
   // Check Redis cache
-  //   const cached = await redis.get("prices");
-  //   if (cached) {
-  //     return NextResponse.json(JSON.parse(cached));
-  //   }
+  const cached = cache.get("prices");
+  if (cached) {
+    console.log("Returning cached prices");
+    return NextResponse.json(cached);
+  }
 
   // Fetch from CoinGecko
+
   const ids = Object.keys(SYMBOLS).join(",");
   const url = `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`;
   const res = await fetch(url);
   const data = await res.json();
+  console.log("Fetched prices from CoinGecko:", data);
+  cache.set("prices", data);
+  setLoserAndGainer(data);
 
   // Format
   const formatted: Record<string, any> = {};
