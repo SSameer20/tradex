@@ -3,13 +3,16 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { useRouter } from "next/navigation";
 
 export default function Navigation() {
   const { data: session, status } = useSession();
+  const router = useRouter();
+
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="w-full  text-[var(--foreground)] px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center shadow-md h-1/10">
+    <nav className="relative w-full text-[var(--foreground)] px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center shadow-md h-1/10">
       <a
         href="/"
         className="font-bold text-lg sm:text-xl text-card-foreground no-underline tracking-wide"
@@ -66,7 +69,7 @@ export default function Navigation() {
                   className="block w-full text-left px-4 py-2 text-error hover:bg-background transition"
                   onClick={() => {
                     setMenuOpen(false);
-                    signOut();
+                    signOut({ callbackUrl: "/" });
                   }}
                 >
                   Logout
@@ -77,12 +80,13 @@ export default function Navigation() {
         ) : (
           <button
             className="bg-warning text-card-foreground px-4 sm:px-5 py-2 rounded-md hover:bg-opacity-80 transition font-semibold cursor-pointer"
-            onClick={() => signIn("google")}
+            onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
           >
             Login / Register
           </button>
         )}
       </div>
+      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-r from-transparent via-white to-transparent h-[0.1rem] opacity-10" />
     </nav>
   );
 }

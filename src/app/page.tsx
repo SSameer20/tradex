@@ -3,25 +3,22 @@
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { features, fetchCoinPrices } from "@/lib/helper";
-import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
 import {
   FetchTopGainersCoins,
   FetchTopLosersCoins,
 } from "@/components/HeroCard";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["prices"],
-    queryFn: fetchCoinPrices,
-    refetchInterval: 30000, // refresh every 30s
-  });
-
-  if (isLoading) return <p>Loading prices...</p>;
-  if (error) return <p>Error loading prices</p>;
+  useEffect(() => {
+    if (status === "authenticated") router.push("/dashboard");
+  }, [session]);
 
   return (
     <main className="relative min-h-svh w-full bg-background flex flex-col items-center transition-colors">
@@ -29,7 +26,7 @@ export default function Home() {
       <Navigation />
 
       {/* Hero Section */}
-      {!session ? (
+      {!session && (
         <section className="relative flex flex-col items-center justify-center min-h-screen px-5 py-20">
           <motion.div
             className="mx-auto text-center px-6 flex flex-col items-center z-30"
@@ -60,6 +57,7 @@ export default function Home() {
                 <Button
                   size="lg"
                   className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-glow"
+                  onClick={() => router.push("/dashboard")}
                 >
                   Get Started
                 </Button>
@@ -72,6 +70,7 @@ export default function Home() {
                   size="lg"
                   variant="outline"
                   className="border-blue-400 text-blue-300 hover:bg-blue-900/30 hover:text-white"
+                  onClick={() => router.push("/dashboard")}
                 >
                   Learn More
                 </Button>
@@ -95,10 +94,6 @@ export default function Home() {
               </div>
             </div>
           </motion.section>
-        </section>
-      ) : (
-        <section className="flex items-center justify-center min-h-screen">
-          <p className="text-lg">Welcome back, {session.user?.name}!</p>
         </section>
       )}
 

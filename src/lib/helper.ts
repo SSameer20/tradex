@@ -39,7 +39,7 @@ export function setLoserAndGainer(
     key,
     ...value,
   }));
-  console.log("Top Losers:", losers);
+  // console.log("Top Losers:", losers);
 
   // Gainers: last 3 (highest change)
   const gainers = sorted
@@ -51,8 +51,8 @@ export function setLoserAndGainer(
     }));
 
   console.log("Top Gainers:", gainers);
-  cache.set("gainers", gainers);
-  cache.set("losers", losers);
+  // cache.set("gainers", gainers);
+  // cache.set("losers", losers);
   return { gainers, losers };
 }
 

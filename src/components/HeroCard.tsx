@@ -21,6 +21,10 @@ export function FetchTopGainersCoins() {
     refetchInterval: 30000, // refresh every 30s
   });
 
+  if (data) {
+    console.log(data);
+  }
+
   if (isLoading) return <p>Loading prices...</p>;
   if (error) return <p>Error loading prices</p>;
   //   return <div>{JSON.stringify(data)}</div>;
@@ -56,11 +60,11 @@ export function FetchTopGainersCoins() {
                   />
                 </div>
                 <div>
-                  <div className="font-semibold text-gray-900 dark:text-white">
-                    {item.key}
+                  <div className="font-semibold text-gray-900 dark:text-white xs:hidden">
+                    {item?.key}
                   </div>
                   <div className="text-sm text-gray-500 dark:text-gray-400">
-                    {item.key?.toUpperCase().substring(0, 3)}
+                    {item?.key?.toUpperCase().substring(0, 3)}
                   </div>
                 </div>
               </div>
@@ -71,7 +75,7 @@ export function FetchTopGainersCoins() {
               <div className="flex items-center gap-2">
                 {item.usd_24h_change < 0 ? (
                   // 🔻 negative → red
-                  <div className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+                  <div className="flex items-center gap-1 lg:px-3 lg:py-1.5 xs:px-1 xs:py-1.5 rounded-full bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
                     <TrendingDown className="w-4 h-4 text-red-500" />
                     <span className="text-red-600 dark:text-red-400 font-semibold text-sm">
                       {item.usd_24h_change?.toFixed(2)}%
@@ -79,7 +83,7 @@ export function FetchTopGainersCoins() {
                   </div>
                 ) : (
                   // 🔼 zero or positive → green
-                  <div className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+                  <div className="flex items-center gap-1 lg:px-3 lg:py-1.5 xs:px-1 xs:py-1.5 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
                     <TrendingUp className="w-4 h-4 text-green-500" />
                     <span className="text-green-600 dark:text-green-400 font-semibold text-sm">
                       {item.usd_24h_change?.toFixed(2)}%
@@ -119,7 +123,9 @@ export function FetchTopLosersCoins() {
     queryFn: fetchTopLosers,
     refetchInterval: 30000, // refresh every 30s
   });
-
+  if (data) {
+    console.log(data);
+  }
   if (isLoading) return <p>Loading prices...</p>;
   if (error) return <p>Error loading prices</p>;
   return (
@@ -153,11 +159,11 @@ export function FetchTopLosersCoins() {
                   />
                 </div>
                 <div>
-                  <div className="font-semibold text-gray-900 dark:text-white">
-                    {item.key}
+                  <div className="font-semibold text-gray-900 dark:text-white xs:hidden">
+                    {item?.key}
                   </div>
                   <div className="text-sm text-gray-500 dark:text-gray-400">
-                    {item.key?.toUpperCase().substring(0, 3)}
+                    {item?.key?.toUpperCase().substring(0, 3)}
                   </div>
                 </div>
               </div>
@@ -168,7 +174,7 @@ export function FetchTopLosersCoins() {
               <div className="flex items-center gap-2">
                 {item.usd_24h_change < 0 ? (
                   // 🔻 negative → red
-                  <div className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+                  <div className="flex items-center gap-1 lg:px-3 lg:py-1.5 xs:px-1 xs:py-1.5 rounded-full bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
                     <TrendingDown className="w-4 h-4 text-red-500" />
                     <span className="text-red-600 dark:text-red-400 font-semibold text-sm">
                       {item.usd_24h_change?.toFixed(2)}%
@@ -176,7 +182,7 @@ export function FetchTopLosersCoins() {
                   </div>
                 ) : (
                   // 🔼 zero or positive → green
-                  <div className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+                  <div className="flex items-center gap-1 lg:px-3 lg:py-1.5 xs:px-1 xs:py-1.5 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
                     <TrendingUp className="w-4 h-4 text-green-500" />
                     <span className="text-green-600 dark:text-green-400 font-semibold text-sm">
                       {item.usd_24h_change?.toFixed(2)}%

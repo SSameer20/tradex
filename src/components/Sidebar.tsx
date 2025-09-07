@@ -1,0 +1,51 @@
+"use client";
+
+import Link from "next/link";
+import { LayoutDashboard, History, Wallet, LogOut } from "lucide-react";
+import { useState } from "react";
+
+export default function Sidebar() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const navItems = [
+    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    { name: "History", href: "/history", icon: History },
+    { name: "Portfolio", href: "/portfolio", icon: Wallet },
+    { name: "Sign Out", href: "/signout", icon: LogOut },
+  ];
+
+  return (
+    <>
+      {/* Desktop Sidebar */}
+      <div className="hidden sm:flex flex-col w-56 bg-card shadow-md min-h-screen p-4">
+        <h2 className="text-xl font-bold mb-6 text-card-foreground">Menu</h2>
+        <nav className="flex flex-col gap-3">
+          {navItems.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent transition-colors"
+            >
+              <item.icon className="w-5 h-5 text-muted-foreground" />
+              <span className="text-card-foreground">{item.name}</span>
+            </Link>
+          ))}
+        </nav>
+      </div>
+
+      {/* Mobile Bottom Nav */}
+      <div className="sm:hidden fixed bottom-0 left-0 w-full bg-card shadow-lg border-t border-border flex justify-around items-center py-2">
+        {navItems.map((item) => (
+          <Link
+            key={item.name}
+            href={item.href}
+            className="flex flex-col items-center gap-1 text-xs text-muted-foreground hover:text-primary"
+          >
+            <item.icon className="w-6 h-6" />
+            <span>{item.name}</span>
+          </Link>
+        ))}
+      </div>
+    </>
+  );
+}

@@ -31,9 +31,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} relative antialiased h-[100svh] w-[100svw] overflow-x-hidden`}
       >
         <Providers>{children}</Providers>
-        {/* <div className="fixed bottom-4 right-4 z-50">
+        <div className="fixed bottom-4 right-4 z-50">
           <ModeToggle />
-        </div> */}
+        </div>
       </body>
     </html>
   );
