@@ -58,6 +58,7 @@ export async function GET() {
       total: user.portfolio.totalBalance,
       value: user.portfolio.totalValue,
       "24h_change": user.portfolio.change24h,
+      holdings: detailedHoldings,
     });
   } catch (error) {
     console.error("Error in GET /api/portfolio:", error);
