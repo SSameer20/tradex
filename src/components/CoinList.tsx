@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { TrendingDown, TrendingUp } from "lucide-react";
-import { coin_images, symbol_images, SYMBOLS } from "@/lib/helper";
+import { coin_images } from "@/lib/helper";
 import Image from "next/image";
 
 export default function CoinList({

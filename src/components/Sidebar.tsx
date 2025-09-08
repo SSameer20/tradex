@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { LayoutDashboard, History, Wallet, LogOut } from "lucide-react";
-import { useState } from "react";
 
 export default function Sidebar() {
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },

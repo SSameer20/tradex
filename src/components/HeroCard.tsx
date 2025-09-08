@@ -1,9 +1,4 @@
-import {
-  coin_images,
-  fetchTopGainers,
-  fetchTopLosers,
-  symbol_images,
-} from "@/lib/helper";
+import { coin_images, fetchTopGainers, fetchTopLosers } from "@/lib/helper";
 import { useQuery } from "@tanstack/react-query";
 import { TrendingDown, TrendingUp } from "lucide-react";
 import Image from "next/image";

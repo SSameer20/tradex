@@ -2,7 +2,7 @@
 
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
-import { features, fetchCoinPrices } from "@/lib/helper";
+import { features } from "@/lib/helper";
 import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
 import {
@@ -18,7 +18,7 @@ export default function Home() {
 
   useEffect(() => {
     if (status === "authenticated") router.push("/dashboard");
-  }, [session]);
+  }, [session, status, router]);
 
   return (
     <main className="relative min-h-svh w-full bg-background flex flex-col items-center transition-colors">

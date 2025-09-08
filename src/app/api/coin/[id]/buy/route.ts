@@ -1,15 +1,23 @@
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 
+interface BuyRequestBody {
+  symbol: string;
+  quantity: number;
+}
+
 export async function POST(
   req: Request,
   context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const body = await req.json();
+    // Type the body
+    const body: BuyRequestBody = await req.json();
     const { symbol, quantity } = body;
-    const coinId = (await context.params).id;
+    const { id: coinId } = await context.params;
+
     console.log("Buy request for:", { coinId, symbol, quantity });
+
     const userId = "clh1v5t1f0000l6l3p9g6nqz5"; // Hardcoded for testing
 
     if (!userId || !symbol || !quantity) {
@@ -21,10 +29,21 @@ export async function POST(
       `http://localhost:3000/api/coin/${coinId}/chart`
     );
 
-    const coinData = await coinPriceRes.json();
-    const priceUsd = coinData.prices[coinData.prices.length - 1][1];
+    if (!coinPriceRes.ok) {
+      return NextResponse.json(
+        { error: "Failed to fetch coin price" },
+        { status: 500 }
+      );
+    }
 
-    const amount = parseFloat(quantity);
+    const coinData: { prices: [number, number][] } = await coinPriceRes.json();
+    const priceUsd = coinData.prices.at(-1)?.[1];
+
+    if (!priceUsd) {
+      return NextResponse.json({ error: "Invalid coin data" }, { status: 500 });
+    }
+
+    const amount = quantity;
     const totalUsd = amount * priceUsd;
 
     const result = await prisma.$transaction(async (tx) => {
@@ -45,8 +64,9 @@ export async function POST(
         });
       }
 
-      if (portfolio.totalBalance < totalUsd)
+      if (portfolio.totalBalance < totalUsd) {
         throw new Error("Insufficient balance");
+      }
 
       const updatedBalance = portfolio.totalBalance - totalUsd;
 
@@ -54,6 +74,7 @@ export async function POST(
       const existingHolding = portfolio.holdings.find(
         (h) => h.symbol === symbol
       );
+
       let holding;
       if (existingHolding) {
         holding = await tx.holding.update({
@@ -99,12 +120,17 @@ export async function POST(
     });
 
     return NextResponse.json({ message: "Buy successful", ...result });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Buy error:", err);
-    const status = err.message === "Insufficient balance" ? 400 : 500;
-    return NextResponse.json(
-      { error: err.message || "Internal server error" },
-      { status }
-    );
+
+    let message = "Internal server error";
+    let status = 500;
+
+    if (err instanceof Error) {
+      message = err.message;
+      status = err.message === "Insufficient balance" ? 400 : 500;
+    }
+
+    return NextResponse.json({ error: message }, { status });
   }
 }

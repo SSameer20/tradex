@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { cache } from "@/lib/redis";
+
 import { setLoserAndGainer, SYMBOLS } from "@/lib/helper";
 export async function GET() {
   // Check Redis cache

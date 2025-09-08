@@ -1,4 +1,3 @@
-import Navigation from "@/components/Navigation";
 import Sidebar from "@/components/Sidebar";
 import RequireAuth from "./_auth";
 

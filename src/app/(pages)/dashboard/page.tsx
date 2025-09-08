@@ -27,7 +27,7 @@ export default function DashboardPage() {
     total: number;
     value: number;
     holdings: {
-      currentPrice: any;
+      currentPrice: number;
       currentValue: number;
       symbol: string;
       id: string;
@@ -72,25 +72,27 @@ export default function DashboardPage() {
           </span>
         </div>
         {/* 24h Change */}
-        <div className="bg-card rounded-xl shadow-md p-4 flex flex-col">
-          <span className="text-sm text-muted-foreground">24h Change</span>
-          <div className="flex items-center gap-2">
-            {portfolioData?.["24h_change"]! >= 0 ? (
-              <TrendingUp className="text-[var(--success)] w-5 h-5" />
-            ) : (
-              <TrendingDown className="text-[var(--error)] w-5 h-5" />
-            )}
-            <span
-              className={`text-2xl font-bold ${
-                portfolioData?.["24h_change"]! >= 0
-                  ? "text-[var(--success)]"
-                  : "text-[var(--error)]"
-              }`}
-            >
-              {portfolioData?.["24h_change"]}%
-            </span>
+        {portfolioData && typeof portfolioData["24h_change"] === "number" && (
+          <div className="bg-card rounded-xl shadow-md p-4 flex flex-col">
+            <span className="text-sm text-muted-foreground">24h Change</span>
+            <div className="flex items-center gap-2">
+              {portfolioData["24h_change"] >= 0 ? (
+                <TrendingUp className="text-[var(--success)] w-5 h-5" />
+              ) : (
+                <TrendingDown className="text-[var(--error)] w-5 h-5" />
+              )}
+              <span
+                className={`text-2xl font-bold ${
+                  portfolioData["24h_change"] >= 0
+                    ? "text-[var(--success)]"
+                    : "text-[var(--error)]"
+                }`}
+              >
+                {portfolioData["24h_change"]}%
+              </span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       {/* Coin List */}
       <div className="w-full max-w-3xl bg-card rounded-xl shadow-lg p-4">

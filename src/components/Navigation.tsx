@@ -3,22 +3,22 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Navigation() {
   const { data: session, status } = useSession();
-  const router = useRouter();
+  // const router = useRouter();
 
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <nav className="relative w-full text-[var(--foreground)] px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center shadow-md h-1/10">
-      <a
+      <Link
         href="/"
         className="font-bold text-lg sm:text-xl text-card-foreground no-underline tracking-wide"
       >
         TradeX
-      </a>
+      </Link>
       <div>
         {status === "loading" ? (
           <span className="text-card-foreground opacity-70">Loading...</span>

@@ -18,7 +18,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useQuery } from "@tanstack/react-query";
-import { fetchChartDetailsById, SYMBOLS } from "@/lib/helper";
+import { fetchChartDetailsById } from "@/lib/helper";
 
 export const description = "A simple area chart";
 

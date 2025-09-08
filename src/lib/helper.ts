@@ -1,4 +1,4 @@
-import { cache } from "./redis";
+// import { cache } from "./redis";
 
 export async function fetchCoinPrices() {
   const res = await fetch("/api/price", {

@@ -8,7 +8,7 @@ export default async function RequireAuth({
 }: {
   children: React.ReactNode;
 }) {
-  // const session = await getServerSession(authOptions);
-  // if (!session) redirect("/signin");
+  const session = await getServerSession(authOptions);
+  if (!session) redirect("/signin");
   return <>{children}</>;
 }
