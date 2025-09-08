@@ -32,6 +32,7 @@ export async function GET() {
 
     // Server-side fetch
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    if (!baseUrl) throw new Error("BAse Url Not specified");
     const priceRes = await fetch(`${baseUrl}/api/price`);
 
     if (!priceRes.ok) {
