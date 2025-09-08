@@ -1,5 +1,7 @@
 // import { cache } from "./redis";
 
+import { cache } from "./redis";
+
 export async function fetchCoinPrices() {
   const res = await fetch("/api/price", {
     cache: "no-store",
@@ -28,6 +30,14 @@ export async function fetchCoinDetailsById(id: string) {
   });
   if (!res.ok) throw new Error("Failed to fetch");
   return res.json();
+}
+// lib/helper.ts
+export async function fetchCoinPrice(coin: keyof typeof SYMBOLS) {
+  const res = await fetch(`/api/coin/${coin}/price`);
+  if (!res.ok) throw new Error("Failed to fetch price");
+  const data = await res.json();
+  // Ensure the return type is { [key in keyof typeof SYMBOLS]: { usd: number } }
+  return data;
 }
 
 export async function fetchUserPortfolioDetails() {
@@ -78,8 +88,8 @@ export function setLoserAndGainer(
       ...value,
     }));
 
-  // cache.set("gainers", gainers);
-  // cache.set("losers", losers);
+  cache.set("gainers", gainers);
+  cache.set("losers", losers);
   return { gainers, losers };
 }
 

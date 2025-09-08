@@ -52,9 +52,6 @@ export default function DashboardPage() {
 
   return (
     <div className="w-full min-h-svh px-2 sm:px-5 py-5 flex flex-col items-center bg-background transition-colors xs:overflow-y-auto">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-card-foreground">
-        Trading Dashboard
-      </h1>
       {/* Portfolio Summary Section */}
       <div className="w-full max-w-3xl grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         {/* Total Balance */}
@@ -95,7 +92,7 @@ export default function DashboardPage() {
         )}
       </div>
       {/* Coin List */}
-      <div className="w-full max-w-3xl bg-card rounded-xl shadow-lg p-4">
+      <div className="w-full max-w-3xl bg-card rounded-xl shadow-lg py-4 px-2">
         <CoinList data={data!} />
       </div>
     </div>

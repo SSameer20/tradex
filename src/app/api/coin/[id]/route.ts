@@ -25,7 +25,7 @@ export async function GET(
       throw new Error("Failed to fetch coin details");
     }
     const coinSlug = await coinDetails.json();
-    console.log(coinSlug);
+
     return NextResponse.json({ data: coinSlug });
   } catch (error) {
     console.log(error);

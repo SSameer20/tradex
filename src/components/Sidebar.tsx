@@ -23,12 +23,19 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent transition-colors"
+              className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent transition-colors cursor-pointer"
             >
               <item.icon className="w-5 h-5 text-muted-foreground" />
               <span className="text-card-foreground">{item.name}</span>
             </Link>
           ))}
+          <div
+            className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent transition-colors cursor-pointer"
+            onClick={() => signOut({ callbackUrl: "/" })}
+          >
+            <LogOut className="w-6 h-6 text-muted-foreground" />
+            <span>Logout</span>
+          </div>
         </nav>
       </div>
 
@@ -50,6 +57,7 @@ export default function Sidebar() {
           onClick={() => signOut({ callbackUrl: "/" })}
         >
           <LogOut className="w-6 h-6" />
+          <span>Logout</span>
         </div>
       </div>
     </>

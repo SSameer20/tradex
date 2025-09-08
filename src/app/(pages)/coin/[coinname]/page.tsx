@@ -9,7 +9,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { SYMBOLS } from "@/lib/helper";
+import { fetchCoinPrice, SYMBOLS } from "@/lib/helper";
+import { useQuery } from "@tanstack/react-query";
 
 type PageProps = {
   params: Promise<{ coinname: string }>;
@@ -18,6 +19,40 @@ type PageProps = {
 export default function CoinTradePage({ params }: PageProps) {
   const { coinname } = use(params);
   const [isTradeOpen, setIsTradeOpen] = useState(false);
+  const [qty, setQty] = useState<number>(0);
+
+  const { data: estPrice, isFetching } = useQuery<{
+    data: { usd: number };
+  } | null>({
+    queryKey: ["coinPrice", coinname],
+    queryFn: () => fetchCoinPrice(coinname as keyof typeof SYMBOLS),
+    enabled: isTradeOpen, // only run when trade popup is open
+    staleTime: 30_000,
+  });
+  const isDisabled = qty <= 0 || isFetching || !estPrice;
+  console.log(estPrice);
+
+  async function handleBuyCoin() {
+    try {
+      const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+      if (!baseURL) throw new Error("no base url configured");
+      const res = await fetch(`/api/coin/${coinname}/buy`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          symbol: coinname.substring(0, 3).toUpperCase(),
+          quantity: qty,
+        }),
+      });
+      if (!res.ok) {
+        alert("failed to buy");
+      }
+      const data = await res.json();
+      alert(`${data?.message} || transaction completed`);
+    } catch (err) {
+      console.error("Buy failed:", err);
+    }
+  }
 
   return (
     <div className="w-full h-full flex flex-col items-center p-6 gap-6 overflow-y-auto">
@@ -69,21 +104,38 @@ export default function CoinTradePage({ params }: PageProps) {
 
       {/* Trade Popup */}
       <Dialog open={isTradeOpen} onOpenChange={setIsTradeOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md" aria-describedby={coinname}>
           <DialogHeader>
             <DialogTitle>Trade {coinname}</DialogTitle>
           </DialogHeader>
           <div className="flex flex-col gap-4">
             <input
               type="number"
-              placeholder="Amount in USD"
+              step="0.00000001" // allow decimals
+              min="0"
+              placeholder="Quantity"
               className="w-full border rounded-lg p-2 dark:bg-gray-800"
+              value={qty ?? ""} // only replace null/undefined, not 0
+              onChange={(e) => setQty(Number(e.target.value))}
             />
+
+            <span className="flex gap-2">
+              Estimated Price:
+              {estPrice?.data?.usd && estPrice?.data?.usd * qty}
+            </span>
+
             <div className="flex gap-2">
-              <Button className="bg-green-500 hover:bg-green-600 flex-1">
+              <Button
+                className="bg-green-500 hover:bg-green-600 flex-1"
+                disabled={isDisabled}
+                onClick={handleBuyCoin}
+              >
                 Buy
               </Button>
-              <Button className="bg-red-500 hover:bg-red-600 flex-1">
+              <Button
+                className="bg-red-500 hover:bg-red-600 flex-1"
+                disabled={isDisabled}
+              >
                 Sell
               </Button>
             </div>

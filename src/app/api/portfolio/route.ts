@@ -5,14 +5,13 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route"; // <- make sure you have this configured
 
 export async function GET() {
+  // 1. Get session
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user?.email) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
-    // 1. Get session
-    const session = await getServerSession(authOptions);
-
-    if (!session || !session.user?.email) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     // 2. Resolve user from DB
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },

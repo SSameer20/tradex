@@ -2,14 +2,14 @@
 import { NextResponse } from "next/server";
 // import { cache } from "@/lib/redis";
 import { setLoserAndGainer, SYMBOLS } from "@/lib/helper";
+import { cache } from "@/lib/redis";
 
 export async function GET() {
   try {
-    // const cached = cache.get("prices");
-    // if (cached) {
-    //   console.log("Returning cached prices");
-    //   return NextResponse.json(cached);
-    // }
+    const cached = cache.get("prices");
+    if (cached) {
+      return NextResponse.json(cached);
+    }
 
     // Fetch from CoinGecko
     const ids = Object.keys(SYMBOLS).join(",");
