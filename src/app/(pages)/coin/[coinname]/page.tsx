@@ -48,7 +48,8 @@ export default function CoinTradePage({ params }: PageProps) {
         alert("failed to buy");
       }
       const data = await res.json();
-      alert(`${data?.message} || transaction completed`);
+      setIsTradeOpen(false);
+      alert(`${data?.message || "transaction completed"} `);
     } catch (err) {
       console.error("Buy failed:", err);
     }

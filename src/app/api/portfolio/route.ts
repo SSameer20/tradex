@@ -31,7 +31,7 @@ export async function GET() {
 
     // Server-side fetch
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    if (!baseUrl) throw new Error("BAse Url Not specified");
+    if (!baseUrl) throw new Error("Base Url Not specified");
     const priceRes = await fetch(`${baseUrl}/api/price`);
 
     if (!priceRes.ok) {
@@ -56,8 +56,7 @@ export async function GET() {
     // 5. Response
     return NextResponse.json({
       total: user.portfolio.totalBalance,
-      value: portfolioValue,
-      holdings: detailedHoldings,
+      value: user.portfolio.totalValue,
       "24h_change": user.portfolio.change24h,
     });
   } catch (error) {

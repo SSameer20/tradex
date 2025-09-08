@@ -26,15 +26,6 @@ export default function DashboardPage() {
   } = useQuery<{
     total: number;
     value: number;
-    holdings: {
-      currentPrice: number;
-      currentValue: number;
-      symbol: string;
-      id: string;
-      amount: number;
-      portfolioId: string;
-      valueUsd: number;
-    }[];
     "24h_change": number;
   }>({
     queryKey: ["portfolio"],
