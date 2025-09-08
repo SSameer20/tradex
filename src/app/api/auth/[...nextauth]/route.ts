@@ -25,19 +25,28 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user }) {
       if (!user.email) return false;
 
-      // Upsert user (create if not exists, update if exists)
-      await prisma.user.upsert({
+      let existingUser = await prisma.user.findUnique({
         where: { email: user.email },
-        update: {
-          name: user.name,
-          image: user.image,
-        },
-        create: {
-          email: user.email,
-          name: user.name,
-          image: user.image,
-        },
       });
+
+      if (existingUser) {
+        // optional: update fields if you want
+        existingUser = await prisma.user.update({
+          where: { email: user.email },
+          data: {
+            name: user.name,
+            image: user.image,
+          },
+        });
+      } else {
+        existingUser = await prisma.user.create({
+          data: {
+            email: user.email,
+            name: user.name,
+            image: user.image,
+          },
+        });
+      }
 
       return true;
     },
