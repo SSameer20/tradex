@@ -25,9 +25,9 @@ export async function POST(
     }
 
     // Fetch coin price
-    const coinPriceRes = await fetch(
-      `http://localhost:3000/api/coin/${coinId}/chart`
-    );
+    // Server-side fetch
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const coinPriceRes = await fetch(`${baseUrl}/api/coin/${coinId}/chart`);
 
     if (!coinPriceRes.ok) {
       return NextResponse.json(
