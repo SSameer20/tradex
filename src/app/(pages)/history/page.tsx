@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card } from "@/components/ui/card";
+
 interface Trade {
   symbol: string;
   quantity: number;
@@ -57,8 +58,8 @@ export default function TransactionHistory() {
   }
 
   return (
-    <Card className="p-6 shadow-lg w-full mx-10 my-10">
-      <Table>
+    <Card className="p-4 shadow-lg w-full md:w-[95%] lg:w-[80%] mx-auto my-6 overflow-x-auto xs:max-h-svh">
+      <Table className="min-w-[600px] md:min-w-full">
         <TableHeader>
           <TableRow>
             <TableHead>Symbol</TableHead>
@@ -72,18 +73,24 @@ export default function TransactionHistory() {
         <TableBody>
           {data.map((h) => (
             <TableRow key={h.date + h.symbol}>
-              <TableCell>{h.symbol}</TableCell>
-              <TableCell>{h.type}</TableCell>
-              <TableCell>${h.quantity?.toFixed(2)}</TableCell>
+              <TableCell>{h.symbol.toUpperCase()}</TableCell>
+              <TableCell
+                className={`font-semibold ${
+                  h.type === "BUY" ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {h.type}
+              </TableCell>
+              <TableCell>{h.quantity.toFixed(4)}</TableCell>
               <TableCell>${h.price.toFixed(2)}</TableCell>
               <TableCell>${h.value.toFixed(2)}</TableCell>
-
               <TableCell>
-                $
                 {new Date(h.date).toLocaleString("en-US", {
                   weekday: "short",
                   hour: "2-digit",
                   minute: "2-digit",
+                  day: "numeric",
+                  month: "short",
                 })}
               </TableCell>
             </TableRow>
