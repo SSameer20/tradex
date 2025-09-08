@@ -17,7 +17,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Desktop Sidebar */}
-      <div className="hidden sm:flex flex-col w-56 bg-card shadow-md min-h-screen p-4">
+      <div className="hidden sm:flex flex-col w-56 bg-card shadow-md h-9/10 p-4 rounded-xl">
         <h2 className="text-xl font-bold mb-6 text-card-foreground">Menu</h2>
         <nav className="flex flex-col gap-3">
           {navItems.map((item) => (

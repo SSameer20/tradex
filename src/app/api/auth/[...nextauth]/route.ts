@@ -47,6 +47,17 @@ export const authOptions: NextAuthOptions = {
         where: { email: token.email! },
       });
 
+      const existing = await prisma.portfolio.findUnique({
+        where: { userId: dbUser?.id },
+      });
+      if (!existing && dbUser) {
+        await prisma.portfolio.create({
+          data: {
+            userId: dbUser.id,
+          },
+        });
+      }
+
       if (dbUser) {
         token.id = dbUser.id;
         token.role = dbUser.role;

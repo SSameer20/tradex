@@ -1,19 +1,47 @@
 import { cache } from "./redis";
 
 export async function fetchCoinPrices() {
-  const res = await fetch("/api/price", { cache: "no-store" });
+  const res = await fetch("/api/price", {
+    cache: "no-store",
+  });
   if (!res.ok) throw new Error("Failed to fetch");
   return res.json();
 }
 
 export async function fetchTopGainers() {
-  const res = await fetch("/api/price/gainer", { cache: "no-store" });
+  const res = await fetch("/api/price/gainer", {
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error("Failed to fetch");
+  return res.json();
+}
+
+export async function fetchChartDetailsById(id: string) {
+  const res = await fetch(`/api/coin/${id}/chart`);
+  if (!res.ok) throw new Error("Failed to fetch chart data");
+  return res.json();
+}
+
+export async function fetchCoinDetailsById(id: string) {
+  const res = await fetch(`api/coin/${id}`, {
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error("Failed to fetch");
+  return res.json();
+}
+
+export async function fetchUserPortfolioDetails() {
+  const res = await fetch(`api/portfolio`, {
+    cache: "no-store",
+  });
   if (!res.ok) throw new Error("Failed to fetch");
   return res.json();
 }
 
 export async function fetchTopLosers() {
-  const res = await fetch("/api/price/loser", { cache: "no-store" });
+  const res = await fetch("/api/price/loser", {
+    cache: "no-store",
+  });
   if (!res.ok) throw new Error("Failed to fetch");
   return res.json();
 }
