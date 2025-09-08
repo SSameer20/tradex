@@ -78,7 +78,6 @@ export function setLoserAndGainer(
       ...value,
     }));
 
-  console.log("Top Gainers:", gainers);
   // cache.set("gainers", gainers);
   // cache.set("losers", losers);
   return { gainers, losers };

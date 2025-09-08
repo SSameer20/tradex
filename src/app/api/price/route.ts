@@ -30,8 +30,6 @@ export async function GET() {
     const data: Record<string, { usd: number; usd_24h_change: number }> =
       await res.json();
 
-    console.log("Fetched prices from CoinGecko:", data);
-
     // cache.set("prices", data);
 
     // Format response

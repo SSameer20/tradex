@@ -16,10 +16,6 @@ export function FetchTopGainersCoins() {
     refetchInterval: 30000, // refresh every 30s
   });
 
-  if (data) {
-    console.log(data);
-  }
-
   if (isLoading) return <p>Loading prices...</p>;
   if (error) return <p>Error loading prices</p>;
   //   return <div>{JSON.stringify(data)}</div>;
@@ -118,9 +114,7 @@ export function FetchTopLosersCoins() {
     queryFn: fetchTopLosers,
     refetchInterval: 30000, // refresh every 30s
   });
-  if (data) {
-    console.log(data);
-  }
+
   if (isLoading) return <p>Loading prices...</p>;
   if (error) return <p>Error loading prices</p>;
   return (

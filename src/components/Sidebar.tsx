@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { LayoutDashboard, History, Wallet, LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 export default function Sidebar() {
   // const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +11,6 @@ export default function Sidebar() {
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "History", href: "/history", icon: History },
     { name: "Portfolio", href: "/portfolio", icon: Wallet },
-    { name: "Sign Out", href: "/signout", icon: LogOut },
   ];
 
   return (
@@ -44,6 +44,13 @@ export default function Sidebar() {
             <span>{item.name}</span>
           </Link>
         ))}
+        <div
+          className="flex flex-col items-center gap-1 text-xs
+          text-muted-foreground hover:text-primary"
+          onClick={() => signOut({ callbackUrl: "/" })}
+        >
+          <LogOut className="w-6 h-6" />
+        </div>
       </div>
     </>
   );

@@ -57,7 +57,6 @@ export function CoinChart({ coinId }: { coinId: string }) {
         No data found
       </div>
     );
-  console.log(data);
 
   // format CoinGecko array -> recharts object array
   const chartData = data.prices.map(([timestamp, price]: [number, number]) => ({

@@ -16,8 +16,6 @@ export async function POST(
     const { symbol, quantity } = body;
     const { id: coinId } = await context.params;
 
-    console.log("Buy request for:", { coinId, symbol, quantity });
-
     const userId = "clh1v5t1f0000l6l3p9g6nqz5"; // Hardcoded for testing
 
     if (!userId || !symbol || !quantity) {
