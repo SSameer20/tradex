@@ -63,7 +63,7 @@ export default function CoinList({
                 href={`coin/${key}`}
                 className="bg-primary text-background px-3 py-1 rounded-lg font-medium hover:bg-opacity-80 transition"
               >
-                Trade / Details
+                Trade
               </Link>
             </td>
           </tr>

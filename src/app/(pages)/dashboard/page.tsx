@@ -51,7 +51,7 @@ export default function DashboardPage() {
     );
 
   return (
-    <div className="w-full min-h-svh px-2 sm:px-5 py-5 flex flex-col items-center bg-background transition-colors">
+    <div className="w-full min-h-svh px-2 sm:px-5 py-5 flex flex-col items-center bg-background transition-colors xs:overflow-y-auto">
       <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-card-foreground">
         Trading Dashboard
       </h1>
