@@ -55,6 +55,38 @@ export default function CoinTradePage({ params }: PageProps) {
     }
   }
 
+  async function handleSellCoin() {
+    try {
+      const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+      if (!baseURL) throw new Error("no base url configured");
+      const res = await fetch(`/api/coin/${coinname}/sell`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          symbol: coinname.substring(0, 3).toUpperCase(),
+          quantity: qty,
+        }),
+      });
+      if (!res.ok) {
+        return alert("transaction failed");
+      }
+      const data = await res.json();
+      setIsTradeOpen(false);
+      if (res.status === 400) {
+        alert(`${data.error?.message} `);
+      } else {
+        alert(`${data?.message || "transaction completed"} `);
+      }
+    } catch (err: unknown) {
+      console.error("Buy failed:", err);
+      if (err instanceof Error) {
+        alert(`${err.message}`);
+      }
+
+      alert("Server Failed");
+    }
+  }
+
   return (
     <div className="w-full h-full flex flex-col items-center p-6 gap-6 overflow-y-auto">
       {/* Graph */}
@@ -136,6 +168,7 @@ export default function CoinTradePage({ params }: PageProps) {
               <Button
                 className="bg-red-500 hover:bg-red-600 flex-1"
                 disabled={isDisabled}
+                onClick={handleSellCoin}
               >
                 Sell
               </Button>
