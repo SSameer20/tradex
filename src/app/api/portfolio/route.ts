@@ -31,7 +31,7 @@ export async function GET() {
     }
 
     // Server-side fetch
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const priceRes = await fetch(`${baseUrl}/api/price`);
 
     if (!priceRes.ok) {
@@ -61,7 +61,7 @@ export async function GET() {
       "24h_change": user.portfolio.change24h,
     });
   } catch (error) {
-    console.error("Error in GET /api/user/portfolio:", error);
+    console.error("Error in GET /api/portfolio:", error);
     return NextResponse.json(
       { error: "Failed to fetch portfolio" },
       { status: 500 }
