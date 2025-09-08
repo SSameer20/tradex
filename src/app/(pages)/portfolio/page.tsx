@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 
 type Holding = {
-  currentPrice: any;
+  currentPrice: number;
   currentValue: number;
   symbol: string;
   id: string;

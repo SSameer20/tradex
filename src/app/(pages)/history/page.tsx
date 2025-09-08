@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Card, CardAction } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 interface Trade {
   symbol: string;
   quantity: number;

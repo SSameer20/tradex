@@ -40,6 +40,7 @@ export async function GET() {
     const prices = await priceRes.json();
 
     // 4. Compute portfolio value
+    // @typescript-eslint/no-unused-vars
     let portfolioValue = 0;
     const detailedHoldings = user.portfolio.holdings.map((h) => {
       const price = prices[h.symbol.toLowerCase()]?.usd || 0;
@@ -50,6 +51,7 @@ export async function GET() {
         ...h,
         currentPrice: price,
         currentValue: value,
+        portfolioValue,
       };
     });
 
